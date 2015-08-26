@@ -2,4 +2,7 @@
 
 namespace DataExporter;
 
-interface ExporterInterface {}
+interface ExporterInterface {
+
+    public function export(DriverInterface $driver, array $options = array());
+}

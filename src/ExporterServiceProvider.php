@@ -20,18 +20,9 @@ class ExporterServiceProvider extends Serviceprovider {
             config_path('yaml/exporter/general.yaml') , 'laravel-exporter'
         );
 
-
-        /** Register driver manager */
-        $this->app->bind('driver-exportable-manager', function() {
-            return (new Manager(
+        $this->app->singleton('laravel-exporter', function() {
+            return new ExportManager(
                 config('laravel-exporter')
-            ));
-        });
-
-        $this->app->singleton('locale-exporter', function($app) {
-            return new Exporter(
-                config('laravel-exporter'),
-                $app['driver-exportable-manager']
             );
         });
     }

@@ -1,6 +1,3 @@
-# here will be set up default driver .
-default_driver: eloquent
-
 # here will be registered all the drivers .
 drivers:
   eloquent:
