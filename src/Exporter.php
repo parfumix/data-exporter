@@ -28,11 +28,11 @@ class Exporter {
     /**
      * Get current active driver .
      * @return mixed
-     * @throws TranslatorException
+     * @throws ExporterException
      */
     public function driver() {
         if(! $this->hasDriver())
-            throw new TranslatorException(_('No active drivers.'));
+            throw new ExporterException(_('No active drivers.'));
 
         return $this->driver;
     }
@@ -69,5 +69,7 @@ class Exporter {
             ->driverManager
             ->driver($alias);
     }
+
+
 
 }
