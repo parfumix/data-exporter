@@ -1,0 +1,12 @@
+# here will be set up default driver .
+default_driver: eloquent
+
+# here will be registered all the drivers .
+drivers:
+  eloquent:
+    class: DataExporter\Drivers\Eloquent
+
+# here will be registered all the exporters .
+exporters:
+  xls:
+    class: DataExporter\Exporters\Xls
