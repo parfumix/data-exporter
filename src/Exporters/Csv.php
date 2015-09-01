@@ -7,5 +7,7 @@ use DataExporter\ExporterInterface;
 
 class Csv extends Exporter implements ExporterInterface {
 
-    public function export() { }
+    public function export($path = null) {
+
+    }
 }

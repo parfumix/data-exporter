@@ -36,5 +36,4 @@ class Xls extends Exporter implements ExporterInterface {
         return $path;
     }
 
-
 }
