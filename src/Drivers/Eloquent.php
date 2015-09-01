@@ -38,10 +38,9 @@ class Eloquent extends Driver implements DriverInterface {
 
             if( isset($model->id) ) {
                 foreach ($columns as $column => $options) {
-                    $data[$column] = $this->getColumnValue($column, $model, $options);
+                    $data[$model->id][$column] = $this->getColumnValue($column, $model, $options);
                 }
 
-                $data = [$data];
             } else {
                 $rows = $model->all();
 

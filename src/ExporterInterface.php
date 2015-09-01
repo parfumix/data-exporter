@@ -4,5 +4,5 @@ namespace DataExporter;
 
 interface ExporterInterface {
 
-    public function export();
+    public function export($path);
 }

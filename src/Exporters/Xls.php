@@ -19,13 +19,15 @@ class Xls extends Exporter implements ExporterInterface {
     /**
      * Export data ..
      *
+     * @param $path
      * @return mixed
      */
-    public function export() {
-        $data = $this->getDriver()->getData();
+    public function export($path) {
+        $data    = $this->getDriver()->getData();
+        $writter = $this->getWriter();
 
-        $this->getWriter()->writeSheet($data, '', $this->getHeader());
+        $writter->writeSheet($data, '', $this->getHeader());
 
-        return $this->getWriter();
+        return $writter->writeToFile($path);
     }
 }
