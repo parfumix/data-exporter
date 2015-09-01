@@ -4,6 +4,7 @@ namespace DataExporter\Exporters;
 
 use DataExporter\Exporter;
 use DataExporter\ExporterInterface;
+use XLSXWriter;
 
 class Xls extends Exporter implements ExporterInterface {
 
@@ -12,8 +13,13 @@ class Xls extends Exporter implements ExporterInterface {
      */
     protected $header;
 
+
     public function __construct(array $options = array()) {
         parent::__construct($options);
+
+        $this->setWriter(
+            new XLSXWriter()
+        );
     }
 
     /**
@@ -23,7 +29,7 @@ class Xls extends Exporter implements ExporterInterface {
      * @param array $options
      */
     public function setHeader(array $header = array(), array $options = array()) {
-
+        
     }
 
     /**
@@ -50,11 +56,11 @@ class Xls extends Exporter implements ExporterInterface {
             );
 
         if( $header = $this->getHeader() )
-            $this->xls->setHeader($header);
+            $this->getWriter()->setHeader($header);
 
-        $this->xls->addSheet('Sheet1');
-        $this->xls->setData($data);
+        $this->getWriter()->addSheet('Sheet1');
+        $this->getWriter()->setData($data);
 
-        return $this->xls;
+        return $this->getWriter();
     }
 }
