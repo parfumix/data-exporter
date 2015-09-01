@@ -88,20 +88,20 @@ class ExportManager {
      * @throws ExporterException
      */
     public function __call($name, $arguments) {
-        $name = substr($name, 2);
+        $name = substr($name, 3);
 
-        $exporter = $this->loadExporter($name);
+        $exporter = $this->loadExporter(
+            strtolower($name)
+        );
+
+        if(! isset($arguments[1]))
+            $arguments[1] = [];
 
         list($driver, $options) = $arguments;
 
         $exporter->setDriver($driver)
             ->setOptions($options);
 
-        if(strtolower($name) == 'export')
-            return $exporter->export();
-        elseif(strtolower($name) == 'get')
-            return $exporter;
-
-        throw new ExporterException(_('Invalid function to call!'));
+        return $exporter;
     }
 }
