@@ -3,8 +3,8 @@
 namespace DataExporter\Drivers;
 
 use DataExporter\Driver;
+use DataExporter\DriverAssets\Eloquent\Exportable;
 use DataExporter\DriverInterface;
-use DataExporter\Eloquent\Exportable;
 use DataExporter\ExporterException;
 use Flysap\Scaffold\ScaffoldAble;
 use Illuminate\Database\Eloquent\Model;
