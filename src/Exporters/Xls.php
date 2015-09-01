@@ -11,8 +11,7 @@ class Xls extends Exporter implements ExporterInterface {
     /**
      * @var
      */
-    protected $header;
-
+    protected $header = [];
 
     public function __construct(array $options = array()) {
         parent::__construct($options);
@@ -26,10 +25,12 @@ class Xls extends Exporter implements ExporterInterface {
      * Set header .
      *
      * @param array $header
-     * @param array $options
+     * @return $this
      */
-    public function setHeader(array $header = array(), array $options = array()) {
-        
+    public function setHeader(array $header = array()) {
+        $this->header = $header;
+
+        return $this;
     }
 
     /**
@@ -41,25 +42,15 @@ class Xls extends Exporter implements ExporterInterface {
         return $this->header;
     }
 
-
     /**
      * Export data ..
      *
-     * @param array $options
-     * @param callable $callback
      * @return mixed
      */
-    public function export(array $options = array(), \Closure $callback = null) {
-        if( ! is_null($callback) )
-            $data = $callback(
-                $this->getDriver()->getData()
-            );
+    public function export() {
+        $data = $this->getDriver()->getData();
 
-        if( $header = $this->getHeader() )
-            $this->getWriter()->setHeader($header);
-
-        $this->getWriter()->addSheet('Sheet1');
-        $this->getWriter()->setData($data);
+        $this->getWriter()->writeSheet($data, '', $this->getHeader());
 
         return $this->getWriter();
     }
