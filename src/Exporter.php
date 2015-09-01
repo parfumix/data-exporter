@@ -168,34 +168,34 @@ abstract class Exporter {
     /**
      * Get default path .
      *
-     * @param bool $assFull
+     * @param null $filename
      * @return string
      */
-    protected function getDefaultPath($assFull = true) {
-        if( ! $defaultPath = config('laravel-exporter')['default_path'])
-            $defaultPath = '';
+    protected function fullPath($filename = null) {
+        if( ! $path = config('laravel-exporter')['default_path'])
+            $path = '';
 
         #@todo check for storage path, we need use without laravel .
-        $path = storage_path($defaultPath);
+        $path = storage_path($path);
 
-        if($assFull)
-            return  $path . DIRECTORY_SEPARATOR . $this->getFilename();
+        if( is_null($filename) )
+            $filename = $this->getFilename();
 
-        return $path;
+        if(! Support\is_path_exists($path))
+            Support\mk_path($path);
+
+        return  $path . DIRECTORY_SEPARATOR . $filename;
     }
 
     /**
      * Download export attachment .
      *
-     * @param null $path
+     * @param null $filename
      * @return mixed
      */
-    public function download($path = null) {
-        if( is_null($path) )
-            $path = $this->getDefaultPath(true);
-
+    public function download($filename = null) {
         $saved = $this->export(
-            $path
+            $filename
         );
 
         $file_info = pathinfo($saved);

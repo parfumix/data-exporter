@@ -10,5 +10,5 @@ exporters:
     headers:
       content-type: vnd.ms-excel
 
-# default path store exported files .
+# default path store exported files . relative from storag_path
 default_path: exports
