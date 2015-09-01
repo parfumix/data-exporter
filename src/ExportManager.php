@@ -38,6 +38,12 @@ class ExportManager {
         return $this->exporters;
     }
 
+    /**
+     * Check if has exporter by alias .
+     *
+     * @param $exporter
+     * @return bool
+     */
     public function hasExporter($exporter) {
         $exporters = $this->getExporters();
 
@@ -74,7 +80,7 @@ class ExportManager {
 
 
     /**
-     * Export to .
+     * Export to specific format .
      *
      * @param $name
      * @param $arguments
@@ -88,8 +94,14 @@ class ExportManager {
 
         list($driver, $options) = $arguments;
 
-        return $exporter->export(
-            $driver, $options
-        );
+        $exporter->setDriver($driver)
+            ->setOptions($options);
+
+        if(strtolower($name) == 'export')
+            return $exporter->export();
+        elseif(strtolower($name) == 'get')
+            return $exporter;
+
+        throw new ExporterException(_('Invalid function to call!'));
     }
 }
