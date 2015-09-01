@@ -19,6 +19,11 @@ abstract class Exporter {
      */
     protected $writer;
 
+    /**
+     * @var
+     */
+    protected $header = [];
+
     public function __construct(array $options = array()) {
         $this->options = $options;
     }
@@ -43,6 +48,28 @@ abstract class Exporter {
      */
     public function getOptions() {
         return $this->options;
+    }
+
+
+    /**
+     * Set header .
+     *
+     * @param array $header
+     * @return $this
+     */
+    public function setHeader(array $header = array()) {
+        $this->header = $header;
+
+        return $this;
+    }
+
+    /**
+     * Get the header .
+     *
+     * @return mixed
+     */
+    public function getHeader() {
+        return $this->header;
     }
 
 

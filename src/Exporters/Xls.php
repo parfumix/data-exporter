@@ -8,38 +8,12 @@ use XLSXWriter;
 
 class Xls extends Exporter implements ExporterInterface {
 
-    /**
-     * @var
-     */
-    protected $header = [];
-
     public function __construct(array $options = array()) {
         parent::__construct($options);
 
         $this->setWriter(
             new XLSXWriter()
         );
-    }
-
-    /**
-     * Set header .
-     *
-     * @param array $header
-     * @return $this
-     */
-    public function setHeader(array $header = array()) {
-        $this->header = $header;
-
-        return $this;
-    }
-
-    /**
-     * Get the header .
-     *
-     * @return mixed
-     */
-    public function getHeader() {
-        return $this->header;
     }
 
     /**
