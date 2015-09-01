@@ -25,7 +25,10 @@ function export($exporter, DriverInterface $driver, array $options = array()) {
  * @return mixed
  */
 function get_exporter($exporter, DriverInterface $driver, array $options = array()) {
-    $exporter = app('laravel-exporter')->get{$exporter};
+    $func = 'get'.$exporter;
+    $exporter = app('laravel-exporter')->$func(
+        $driver, $options
+    );
 
-    return $exporter->getXls($driver, $options);
+    return $exporter;
 }
