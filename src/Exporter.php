@@ -19,6 +19,27 @@ abstract class Exporter {
     }
 
     /**
+     * Set options ..
+     *
+     * @param array $options
+     * @return $this
+     */
+    public function setOptions(array $options = array()) {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Get options ..
+     *
+     * @return array
+     */
+    public function getOptions() {
+        return $this->options;
+    }
+
+    /**
      * Set driver source .
      *
      * @param DriverInterface $driver
