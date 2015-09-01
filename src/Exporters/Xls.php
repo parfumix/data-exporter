@@ -22,12 +22,19 @@ class Xls extends Exporter implements ExporterInterface {
      * @param $path
      * @return mixed
      */
-    public function export($path) {
+    public function export($path = null) {
+        if(is_null($path))
+            $path = $this->getDefaultPath(true);
+
         $data    = $this->getDriver()->getData();
         $writter = $this->getWriter();
 
         $writter->writeSheet($data, '', $this->getHeader());
 
-        return $writter->writeToFile($path);
+        $writter->writeToFile($path);
+
+        return $path;
     }
+
+
 }

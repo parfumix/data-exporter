@@ -100,7 +100,7 @@ class ExportManager {
         list($driver, $options) = $arguments;
 
         $exporter->setDriver($driver)
-            ->setOptions($options);
+            ->addOptions($options);
 
         return $exporter;
     }
