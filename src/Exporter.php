@@ -2,7 +2,11 @@
 
 namespace DataExporter;
 
+use Flysap\Support;
+
 abstract class Exporter {
+
+    const DEFAULT_PATH = 'xls';
 
     /**
      * @var array
@@ -24,8 +28,13 @@ abstract class Exporter {
      */
     protected $header = [];
 
+    /**
+     * @var
+     */
+    protected $filename;
+
     public function __construct(array $options = array()) {
-        $this->options = $options;
+        $this->setOptions($options);
     }
 
 
@@ -37,6 +46,18 @@ abstract class Exporter {
      */
     public function setOptions(array $options = array()) {
         $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Add new options .
+     *
+     * @param array $options
+     * @return $this
+     */
+    public function addOptions(array $options = array()) {
+        $this->options = array_merge($options, $this->options);
 
         return $this;
     }
@@ -114,5 +135,77 @@ abstract class Exporter {
      */
     public function getDriver() {
         return $this->driver;
+    }
+
+
+    /**
+     * Set filename .
+     *
+     * @param $filename
+     * @return $this
+     */
+    public function setFilename($filename) {
+        $this->filename = $filename;
+
+        return $this;
+    }
+
+    /**
+     * Get filename .
+     *
+     * @return mixed
+     */
+    public function getFilename() {
+        if(!  $filename = $this->filename) {
+
+            $class    = explode('\\',get_called_class());
+            $class    = end($class);
+            $filename = date('Y_m_d_H_i_s') .'_'. microtime(true) . '.' . strtolower($class);
+        }
+
+        return $filename;
+    }
+
+
+    /**
+     * Get default path .
+     *
+     * @param bool $assFull
+     * @return string
+     */
+    protected function getDefaultPath($assFull = true) {
+        $defaultPath = self::DEFAULT_PATH;
+
+        if( isset($this->options['save_path']))
+            $defaultPath = $this->options['save_path'];
+
+        #@todo check for storage path, we need use without laravel .
+        $path = storage_path($defaultPath);
+
+        if($assFull)
+            return  $path . DIRECTORY_SEPARATOR . $this->getFilename();
+
+        return $path;
+    }
+
+    /**
+     * Download export attachment .
+     *
+     * @param null $path
+     * @return mixed
+     */
+    public function download($path = null) {
+        if( is_null($path) )
+            $path = $this->getDefaultPath(true);
+
+        $saved = $this->export(
+            $path
+        );
+
+        $file_info = pathinfo($saved);
+
+        $headers = isset($this->options['headers']) ? $this->options['headers'] : [];
+
+        return Support\download_file($saved, $file_info['filename'] . '.' . $file_info['extension'], $headers['content-type']);
     }
 }
