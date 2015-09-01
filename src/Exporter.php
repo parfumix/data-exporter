@@ -196,10 +196,13 @@ abstract class Exporter {
      */
     public function download($path = null) {
         if( is_null($path) )
-            $path = $this->getDefaultPath(true);
+            $path = $this->getDefaultPath(false);
+
+        if(! Support\is_path_exists($path))
+            Support\mk_path($path);
 
         $saved = $this->export(
-            $path
+            $this->getDefaultPath(true)
         );
 
         $file_info = pathinfo($saved);

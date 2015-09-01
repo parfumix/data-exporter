@@ -27,11 +27,11 @@ class Xls extends Exporter implements ExporterInterface {
             $path = $this->getDefaultPath(true);
 
         $data    = $this->getDriver()->getData();
-        $writter = $this->getWriter();
+        $writer  = $this->getWriter();
 
-        $writter->writeSheet($data, '', $this->getHeader());
+        $writer->writeSheet($data, '', $this->getHeader());
 
-        $writter->writeToFile($path);
+        $writer->writeToFile($path);
 
         return $path;
     }

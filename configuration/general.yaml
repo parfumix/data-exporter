@@ -7,6 +7,5 @@ drivers:
 exporters:
   xls:
     class: DataExporter\Exporters\Xls
-    save_path: xls
     headers:
-      content-type: vnd.ms-excel; charset=utf-8
+      content-type: vnd.ms-excel
