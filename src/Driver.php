@@ -9,8 +9,8 @@ abstract class Driver {
      */
     protected $data;
 
-    public function __construct($data) {
-        $this->setData($data);
+    public function __construct($data, \Closure $callback = null) {
+        $this->setData($data, $callback);
     }
 
     /**

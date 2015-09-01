@@ -5,7 +5,9 @@ namespace DataExporter\Drivers;
 use DataExporter\Driver;
 use DataExporter\DriverInterface;
 use DataExporter\Eloquent\Exportable;
+use DataExporter\ExporterException;
 use Flysap\Scaffold\ScaffoldAble;
+use Illuminate\Database\Eloquent\Model;
 
 class Eloquent extends Driver implements DriverInterface {
 
@@ -13,30 +15,40 @@ class Eloquent extends Driver implements DriverInterface {
      * Set data to eloquent driver .
      *
      * @param $model
+     * @param callable $callback
      * @return $this
+     * @throws ExporterException
      */
-    public function setData($model) {
+    public function setData($model, \Closure $callback = null) {
+
+        if(! $model instanceof Model)
+            throw new ExporterException(_('Invalid model'));
+
         $data = array();
 
-        if( $model instanceof Exportable )
-            $columns = $model->getExportColumns();
-        elseif( $model instanceof ScaffoldAble )
-            $columns = $model->scaffoldListing();
-        else
-            $columns = $model->getFillable();
-
-        if( isset($model->id) ) {
-            foreach ($columns as $column => $options) {
-                $data[$column] = $this->getColumnValue($column, $model, $options);
-            }
-
-            $data = [$data];
+        if( ! is_null($callback) ) {
+            $data = $callback($model);
         } else {
-            $rows = $model->all();
+            if( $model instanceof Exportable )
+                $columns = $model->getExportColumns();
+            elseif( $model instanceof ScaffoldAble )
+                $columns = $model->scaffoldListing();
+            else
+                $columns = $model->getFillable();
 
-            foreach($rows as $row) {
+            if( isset($model->id) ) {
                 foreach ($columns as $column => $options) {
-                    $data[$column] = $this->getColumnValue($column, $row, $options);
+                    $data[$column] = $this->getColumnValue($column, $model, $options);
+                }
+
+                $data = [$data];
+            } else {
+                $rows = $model->all();
+
+                foreach($rows as $key => $row) {
+                    foreach ($columns as $column => $options) {
+                        $data[$key][$column] = $this->getColumnValue($column, $row, $options);
+                    }
                 }
             }
         }
