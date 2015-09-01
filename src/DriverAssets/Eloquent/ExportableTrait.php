@@ -1,6 +1,6 @@
 <?php
 
-namespace DataExporter\Eloquent;
+namespace DataExporter\DriverAssets\Eloquent;
 
 use Flysap\Scaffold\ScaffoldAble;
 
