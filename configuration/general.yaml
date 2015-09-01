@@ -9,3 +9,6 @@ exporters:
     class: DataExporter\Exporters\Xls
     headers:
       content-type: vnd.ms-excel
+
+# default path store exported files .
+default_path: exports

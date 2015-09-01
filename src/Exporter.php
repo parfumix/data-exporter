@@ -6,8 +6,6 @@ use Flysap\Support;
 
 abstract class Exporter {
 
-    const DEFAULT_PATH = 'xls';
-
     /**
      * @var array
      */
@@ -174,10 +172,8 @@ abstract class Exporter {
      * @return string
      */
     protected function getDefaultPath($assFull = true) {
-        $defaultPath = self::DEFAULT_PATH;
-
-        if( isset($this->options['save_path']))
-            $defaultPath = $this->options['save_path'];
+        if( ! $defaultPath = config('laravel-exporter')['default_path'])
+            $defaultPath = '';
 
         #@todo check for storage path, we need use without laravel .
         $path = storage_path($defaultPath);
@@ -196,13 +192,10 @@ abstract class Exporter {
      */
     public function download($path = null) {
         if( is_null($path) )
-            $path = $this->getDefaultPath(false);
-
-        if(! Support\is_path_exists($path))
-            Support\mk_path($path);
+            $path = $this->getDefaultPath(true);
 
         $saved = $this->export(
-            $this->getDefaultPath(true)
+            $path
         );
 
         $file_info = pathinfo($saved);
