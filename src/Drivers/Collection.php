@@ -7,7 +7,19 @@ use DataExporter\DriverInterface;
 
 class Collection extends Driver implements DriverInterface {
 
-    public function setData($data) {
-        // TODO: Implement setData() method.
+    /**
+     * Set data .
+     *
+     * @param $data
+     * @param callable $callback
+     * @return $this
+     */
+    public function setData($data, \Closure $callback = null) {
+        if(! is_null($callback))
+            $data = $callback($data);
+
+        $this->data = $data;
+
+        return $this;
     }
 }
