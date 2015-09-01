@@ -17,6 +17,20 @@ function export($exporter, DriverInterface $driver, array $options = array()) {
 }
 
 /**
+ * Download file .
+ *
+ * @param $exporter
+ * @param DriverInterface $driver
+ * @param array $options
+ * @return mixed
+ */
+function download($exporter, DriverInterface $driver, array $options = array()) {
+    $exporter = get_exporter($exporter, $driver, $options);
+
+    return $exporter->download();
+}
+
+/**
  * Get exporter instance .
  *
  * @param $exporter
