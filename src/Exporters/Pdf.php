@@ -15,7 +15,15 @@ class Pdf extends Exporter implements ExporterInterface {
         );
     }
 
-    public function export($path = null) {
+    public function export($filename = null) {
+        $fullPath = $this->fullPath($filename);
 
+        $fileInfo = pathinfo($fullPath);
+
+        $this->getWriter()->create(
+            $fileInfo['filename']
+        )->save('pdf', $fileInfo['dirname']);
+
+        return $fullPath;
     }
 }

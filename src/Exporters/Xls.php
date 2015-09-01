@@ -4,7 +4,7 @@ namespace DataExporter\Exporters;
 
 use DataExporter\Exporter;
 use DataExporter\ExporterInterface;
-use XLSXWriter;
+use Flysap\Support;
 
 class Xls extends Exporter implements ExporterInterface {
 
@@ -12,28 +12,26 @@ class Xls extends Exporter implements ExporterInterface {
         parent::__construct($options);
 
         $this->setWriter(
-            new XLSXWriter()
+            app('excel')
         );
     }
 
     /**
      * Export data ..
      *
-     * @param $path
+     * @param $filename
      * @return mixed
      */
-    public function export($path = null) {
-        if(is_null($path))
-            $path = $this->getDefaultPath(true);
+    public function export($filename = null) {
+        $fullPath = $this->fullPath($filename);
 
-        $data    = $this->getDriver()->getData();
-        $writer  = $this->getWriter();
+        $fileInfo = pathinfo($fullPath);
 
-        $writer->writeSheet($data, '', $this->getHeader());
+        $this->getWriter()->create(
+            $fileInfo['filename']
+        )->save('xls', $fileInfo['dirname']);
 
-        $writer->writeToFile($path);
-
-        return $path;
+        return $fullPath;
     }
 
 }
