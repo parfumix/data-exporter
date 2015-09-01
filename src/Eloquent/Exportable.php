@@ -9,5 +9,5 @@ interface Exportable {
      *
      * @return mixed
      */
-    public function export();
+    public function getExportColumns();
 }
