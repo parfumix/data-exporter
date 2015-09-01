@@ -14,9 +14,15 @@ abstract class Exporter {
      */
     protected $driver;
 
+    /**
+     * @var
+     */
+    protected $writer;
+
     public function __construct(array $options = array()) {
         $this->options = $options;
     }
+
 
     /**
      * Set options ..
@@ -38,6 +44,29 @@ abstract class Exporter {
     public function getOptions() {
         return $this->options;
     }
+
+
+    /**
+     * Set writter .
+     *
+     * @param $writer
+     * @return $this
+     */
+    public function setWriter($writer) {
+        $this->writer = $writer;
+
+        return $this;
+    }
+
+    /**
+     * Get writter .
+     *
+     * @return mixed
+     */
+    public function getWriter() {
+        return $this->writer;
+    }
+
 
     /**
      * Set driver source .
