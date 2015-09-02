@@ -46,3 +46,12 @@ function get_exporter($exporter, DriverInterface $driver, array $options = array
 
     return $exporter;
 }
+
+/**
+ * Get all registered exporters .
+ *
+ * @return mixed
+ */
+function get_exporters() {
+    return config('laravel-exporter')['exporters'];
+}
