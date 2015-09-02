@@ -2,6 +2,8 @@
 drivers:
   eloquent:
     class: DataExporter\Drivers\Eloquent
+  collection:
+    class: DataExporter\Drivers\Collection
 
 # here will be registered all the exporters .
 exporters:
@@ -9,6 +11,14 @@ exporters:
     class: DataExporter\Exporters\Xls
     headers:
       content-type: vnd.ms-excel
+  csv:
+    class: DataExporter\Exporters\Csv
+    headers:
+      content-type: octet-stream
+  pdf:
+    class: DataExporter\Exporters\Pdf
+    headers:
+      content-type: pdf
 
 # default path store exported files . relative from storag_path
 default_path: exports
