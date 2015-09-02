@@ -31,6 +31,11 @@ abstract class Exporter {
      */
     protected $filename;
 
+    /**
+     * @var
+     */
+    protected $template;
+
     public function __construct(array $options = array()) {
         $this->setOptions($options);
     }
@@ -43,7 +48,8 @@ abstract class Exporter {
      * @return $this
      */
     public function setOptions(array $options = array()) {
-        $this->options = $options;
+        $this->options = [];
+        $this->addOptions($options);
 
         return $this;
     }
@@ -56,6 +62,15 @@ abstract class Exporter {
      */
     public function addOptions(array $options = array()) {
         $this->options = array_merge($options, $this->options);
+
+        if( isset($options['template']) )
+            $this->setTemplate((new Template($options['template'])));
+
+        if( isset($options['filename']) )
+            $this->setFilename($options['filename']);
+
+        if( isset($options['header']) )
+            $this->setHeader($options['header']);
 
         return $this;
     }
@@ -166,6 +181,28 @@ abstract class Exporter {
 
 
     /**
+     * Set style template
+     *
+     * @param $template
+     * @return $this
+     */
+    public function setTemplate($template) {
+        $this->template = $template;
+
+        return $this;
+    }
+
+    /**
+     * Get style template .
+     *
+     * @return mixed
+     */
+    public function getTemplate() {
+        return $this->template;
+    }
+
+
+    /**
      * Get default path .
      *
      * @param null $filename
@@ -191,11 +228,12 @@ abstract class Exporter {
      * Download export attachment .
      *
      * @param null $filename
+     * @param callable $callback
      * @return mixed
      */
-    public function download($filename = null) {
+    public function download($filename = null, \Closure $callback = null) {
         $saved = $this->export(
-            $filename
+            $filename, $callback
         );
 
         $file_info = pathinfo($saved);
