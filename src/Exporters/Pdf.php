@@ -43,7 +43,7 @@ class Pdf extends Exporter implements ExporterInterface {
                     $sheet->fromArray($data);
                 });
             }
-        })->save('xls', $fileInfo['dirname']);
+        })->save('pdf', $fileInfo['dirname']);
 
         return $fullPath;
     }

@@ -43,7 +43,7 @@ class Csv extends Exporter implements ExporterInterface {
                     $sheet->fromArray($data);
                 });
             }
-        })->save('xls', $fileInfo['dirname']);
+        })->save('csv', $fileInfo['dirname']);
 
         return $fullPath;
     }
