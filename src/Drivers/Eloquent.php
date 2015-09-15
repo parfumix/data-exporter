@@ -32,7 +32,7 @@ class Eloquent extends Driver implements DriverInterface {
             if( $model instanceof Exportable )
                 $columns = $model->getExportColumns();
             elseif( $model instanceof ScaffoldAble )
-                $columns = $model->scaffoldListing();
+                $columns = $model->skyShow();
             else
                 $columns = $model->getFillable();
 

@@ -13,7 +13,7 @@ trait ExportableTrait {
      */
     public function getExportColumns() {
         if( $this instanceof ScaffoldAble )
-            return $this->scaffoldListing();
+            return $this->skyShow();
 
         return $this->getFillable();
     }
