@@ -4,6 +4,7 @@ namespace DataExporter;
 
 use Illuminate\Support\ServiceProvider;
 use Flysap\Support;
+use Maatwebsite\Excel\ExcelServiceProvider;
 
 class ExporterServiceProvider extends Serviceprovider {
 
@@ -24,6 +25,22 @@ class ExporterServiceProvider extends Serviceprovider {
             return new ExportManager(
                 config('laravel-exporter')
             );
+        });
+
+        $this->registerPackageServices();
+    }
+
+    /**
+     * Register service provider dependencies .
+     *
+     */
+    protected function registerPackageServices() {
+        $providers = [
+            ExcelServiceProvider::class
+        ];
+
+        array_walk($providers, function($provider) {
+            app()->register($provider);
         });
     }
 
